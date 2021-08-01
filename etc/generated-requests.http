@@ -7,3 +7,12 @@ Content-Type: application/json
     "email": "john@doe.com",
     "name": "js"
 }
+
+###
+POST http://localhost:8080/project
+Content-Type: application/json
+
+{
+  "name": "fooBar",
+  "language": ""
+}

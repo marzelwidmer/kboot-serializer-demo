@@ -37,64 +37,64 @@ data class RecordDto(
 @RequestMapping(produces = [MediaTypes.HAL_JSON_VALUE])
 @EnableHypermediaSupport(stacks = [WebStack.WEBFLUX], type = [EnableHypermediaSupport.HypermediaType.HAL])
 class IndexResource(private var messageSource: MessageSource) {
-    companion object REL {
-        const val REL_SPRING_INITIALIZR = "start-spring"
-    }
+//    companion object REL {
+//        const val REL_SPRING_INITIALIZR = "start-spring"
+//    }
+//
+//    @GetMapping("/fooBar")
+//    suspend fun fooBar() =  RecordDto("hello")
+//
+//    @GetMapping("/")
+//    suspend fun index(): org.springframework.hateoas.EntityModel<Unit> {
+//        return EntityModel.of(
+//            Unit,
+//            org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.linkTo(org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn(IndexResource::class.java).index())
+//                .withSelfRel().toMono().awaitSingle()
+//        )
+//            .add(org.springframework.hateoas.Link.of("http://start.spring.io").withRel(REL_SPRING_INITIALIZR))
+//    }
 
-    @GetMapping("/fooBar")
-    suspend fun fooBar() =  RecordDto("hello")
-
-    @GetMapping("/")
-    suspend fun index(): org.springframework.hateoas.EntityModel<Unit> {
-        return EntityModel.of(
-            Unit,
-            org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.linkTo(org.springframework.hateoas.server.reactive.WebFluxLinkBuilder.methodOn(IndexResource::class.java).index())
-                .withSelfRel().toMono().awaitSingle()
-        )
-            .add(org.springframework.hateoas.Link.of("http://start.spring.io").withRel(REL_SPRING_INITIALIZR))
-    }
-
-    @GetMapping(value = ["/project"])
-    suspend fun getProject(@RequestParam name: String): Project {
-        // Serializing objects
-        val data = Project("kotlinx.serialization", "Kotlin")
-
-        val string = Json.encodeToString(data)
-        println(string) // {"name":"kotlinx.serialization","language":"Kotlin"}
-
-        // Deserializing back into objects
-        val obj = Json.decodeFromString<Project>(string)
-        println(obj) // Project(name=kotlinx.serialization, language=Kotlin)
-
-        return Project(name)
-    }
-
+//    @GetMapping(value = ["/project"])
+//    suspend fun getProject(@RequestParam name: String): Project {
+//        // Serializing objects
+//        val data = Project("kotlinx.serialization", "Kotlin")
+//
+//        val string = Json.encodeToString(data)
+//        println(string) // {"name":"kotlinx.serialization","language":"Kotlin"}
+//
+//        // Deserializing back into objects
+//        val obj = Json.decodeFromString<Project>(string)
+//        println(obj) // Project(name=kotlinx.serialization, language=Kotlin)
+//
+//        return Project(name)
+//    }
+//
     @PostMapping(value = ["/project"])
     suspend fun postProject(@RequestBody /*@Validated*/ project: Project): Project {
         return Project(project.name, project.language)
     }
 
 
-    @GetMapping(value = ["/person"])
-    suspend fun getPerson(@RequestParam @Valid name: String) = Person(name = name, email = "foo@bar.com")
-
+//    @GetMapping(value = ["/person"])
+//    suspend fun getPerson(@RequestParam @Valid name: String) = Person(name = name, email = "foo@bar.com")
+//
     @PostMapping(value = ["/person"])
     suspend fun postPerson(@RequestBody @Valid person: Person): Person {
         return person
     }
-
-    @GetMapping(value = ["foo"])
-    suspend fun foo() {
-        val locale = LocaleContextHolder.getLocale()
-        val foo = messageSource.getMessage("IndexResource.msg", null, locale)
-        println(foo)
-    }
+//
+//    @GetMapping(value = ["foo"])
+//    suspend fun foo() {
+//        val locale = LocaleContextHolder.getLocale()
+//        val foo = messageSource.getMessage("IndexResource.msg", null, locale)
+//        println(foo)
+//    }
 
 }
 
 // https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/basic-serialization.md#data-validation
 @Serializable
-data class Project(@SerialName("name") val name: String, @Required val language: String = computeLanguage()) {
+data class Project(@Required @SerialName("name") val name: String, val language: String? = computeLanguage()) {
     init {
         require(name.isNotEmpty()) { "name cannot be empty" }
         require(name.length > 2) { "name lenght are not enoghty" }
@@ -118,11 +118,11 @@ data class Person(
 //    @get:Min(0)
 //    private val age: Int
 )
-
-@Configuration
-class AppConfig {
-    @Bean
-    fun validator(): LocalValidatorFactoryBean {
-        return LocalValidatorFactoryBean()
-    }
-}
+//
+//@Configuration
+//class AppConfig {
+//    @Bean
+//    fun validator(): LocalValidatorFactoryBean {
+//        return LocalValidatorFactoryBean()
+//    }
+//}
